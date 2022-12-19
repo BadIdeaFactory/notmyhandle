@@ -1,0 +1,159 @@
+<html>
+<head>
+	<style>
+		#notTwitter {
+			display: none;
+		}
+		#twitter {
+			display: none;
+		}
+		#choices {
+			display: grid;
+			gap: 5px;
+		}
+		#create {
+			display: none;
+		}
+		#createGrid {
+			display: grid;
+		}
+		#share {
+			display: none;
+		}
+		#result {
+			display: none;
+		}
+		#shareAnything {
+			display: none;
+		}
+		#shareLink {
+			display: none;
+		}
+		#shareMessage {
+			display: none;
+			background: #ccc;
+			padding: 10px;
+			font-size: 20px;
+			font-family: Arial, Helvetica, sans-serif;
+		}
+		#content {
+			margin: auto;
+			max-width: 700px;
+			padding: 10px;
+			border: 1px solid black;
+		}
+		#generate {
+			margin: 10px 0px;
+			padding: 10px;
+			background: #994444;
+			font-weight: bold;
+			font-size: 32px;
+			color: #fff;
+		}
+		#urlShareSpace {
+			background-color: #dddd00;
+			margin: 10px 0px;
+			padding: 20px;
+			border: 2px dashed black;
+		}
+	</style>
+</head>
+<body>
+	<div id="content">
+		<div id="intro">
+			<h1>Hold on just to be sure...</h1>
+			<h2>Do you work for or own Twitter?</h2>
+			<div id="choices">
+				<button id="yes">Yes</button>
+				<button id="no">No</button>
+			</div>
+			<p>Please note that if you DO work for or own Twitter and lie, then you're officially accessing these resources without permission</p>
+			<p>I'm like 99% sure that accessing computing resources without permission is totally a violation of the Computer Fraud and Abuse Act.</p>
+			<p>Just saying.</p>
+		</div>
+		<div id="notTwitter">
+			<div id="shareAnything">
+				<h1>Since you can be trusted</h1>
+				<div id="shareLink">
+					You can find me at <a id="notMySocialHandleValue"></a>
+				</div>
+				<div id="shareMessage">
+				</div>
+			</div>
+			<div id="create">
+				<div id="createGrid">
+					<h2>Generate a link or message to share on Twitter (you can include both)</h2>
+					<p>The social media URL you want to share.</p>
+					<input type="text" id="notAHandleInput" />
+					<p>The message you want to share.</p>
+					<textarea id="messageInput"></textarea>
+					<button id="generate">Generate!</button>
+					<div id="result">
+						Copy this URL and share it:
+						<div id="urlShareSpace">
+							<a id="resultLink"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="twitter">
+			Wow, Cool! Twitter is such a great platform!
+		</div>
+	</div>
+	<script>
+		const notMySocialHandleLink = document.getElementById('notMySocialHandleValue');
+		const yesButton = document.getElementById('yes');
+		const noButton = document.getElementById('no');
+		const intro = document.getElementById('intro');
+		const notTwitter = document.getElementById('notTwitter');
+		const twitter = document.getElementById('twitter');
+		const create = document.getElementById('create');
+		const shareLink = document.getElementById('shareLink');
+		const shareMessage = document.getElementById('shareMessage');
+		const shareAnything = document.getElementById('shareAnything');
+		const params = new URLSearchParams(window.location.search);
+
+		const generateButton = document.getElementById('generate');
+		const result = document.getElementById('result');
+		const notAHandleInput = document.getElementById('notAHandleInput');
+		const messageInput = document.getElementById('messageInput');
+
+		generateButton.onclick = () => {
+			const encodedLink = btoa(notAHandleInput.value);
+			const encodedMessage = btoa(messageInput.value);
+			const secretUrl = `${window.location}?h=${encodedLink}&m=${encodedMessage}`;
+			resultLink.href = secretUrl;
+			resultLink.text = secretUrl;
+			result.style.display='block';
+		}
+
+		yesButton.onclick = () => {
+			twitter.style.display='block';
+			intro.style.display='none';
+		};
+		noButton.onclick =() => {
+			if (params.get('h')) {
+				const notMySocialHandleValue = atob(params.get('h'));
+				notMySocialHandleLink.href = notMySocialHandleValue;
+				notMySocialHandleLink.text = notMySocialHandleValue;
+				shareAnything.style.display='block';
+				shareLink.style.display='block';
+				notTwitter.style.display='block';
+				intro.style.display='none';
+			}
+			if (params.get('m')) {
+				const notMySocialHandleValue = atob(params.get('m'));
+				shareMessage.innerHTML = notMySocialHandleValue;
+				shareAnything.style.display='block';
+				shareMessage.style.display='block';
+				notTwitter.style.display='block';
+				intro.style.display='none';
+			}
+			create.style.display='block';
+			notTwitter.style.display='block';
+			intro.style.display='none';
+		};
+	</script>
+</body>
+</html>
