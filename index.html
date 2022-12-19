@@ -143,7 +143,7 @@
 		generateButton.onclick = () => {
 			const encodedLink = btoa(notAHandleInput.value);
 			const encodedMessage = btoa(messageInput.value);
-			const secretUrl = `${window.location}?h=${encodedLink}&m=${encodedMessage}`;
+			const secretUrl = `${window.location.href.split('?')[0]}?h=${encodedLink}&m=${encodedMessage}`;
 			resultLink.href = secretUrl;
 			resultLink.text = secretUrl;
 			result.style.display='block';
